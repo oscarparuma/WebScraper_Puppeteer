@@ -11,7 +11,8 @@ async function scrapeAll(browserInstance){
 		scrapedData = await pageScraper.scraper(browser);
 		await browser.close();
 		console.log(scrapedData)
-		fs.writeFile("data_CompraLoNuestro.json", JSON.stringify(scrapedData), 'utf8', function(err) {
+		//fs.writeFile("data_CompraLoNuestro.json", JSON.stringify(scrapedData), 'utf8', function(err) {
+		fs.writeFile("data_CompraLoNuestro.json", JSON.stringify(scrapedData), {encoding: 'latin1'}, function(err) {
 		    if(err) {
 		        return console.log(err);
 		    }
