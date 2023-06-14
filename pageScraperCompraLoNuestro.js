@@ -66,37 +66,142 @@ const scraperObject = {
 				await page.waitForSelector('div.main-content.ng-scope');
 				try {
 					dataObj['companyDetailURL'] = link;
-					dataObj['companyNameHeader'] = await newPage.$eval('.landing-mid-hero > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h2:nth-child(1)', text => text.textContent);
-					dataObj['companyName'] = await newPage.$eval('.first-column > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => text.textContent);
+					dataObj['companyNameHeader'] = await newPage.$eval('.landing-mid-hero > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > h2:nth-child(1)', text => text.textContent).catch(() => '');
+					dataObj['companyName'] = await newPage.$eval('.first-column > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => text.textContent).catch(() => '');
 					dataObj['companyDescription'] = await newPage.$eval('.description-block > div:nth-child(2) > div:nth-child(1) > p:nth-child(1)', text => {
 						// Strip new line and tab spaces
 						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
 						return text;
-					});
-					dataObj['webSite'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1) > a:nth-child(3)', text => text.textContent);
-					dataObj['email'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > p:nth-child(1) > span:nth-child(3)', text => text.textContent);
-					dataObj['phone'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > p:nth-child(1) > span:nth-child(3)', text => text.textContent);
-					dataObj['address1'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > p:nth-child(1) > span:nth-child(3)', text => text.textContent);
-					dataObj['address2'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > p:nth-child(1) > span:nth-child(4)', text => text.textContent);
-					dataObj['ecommerce'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(6) > div:nth-child(1) > p:nth-child(1) > a:nth-child(3)', text => text.textContent);
-					dataObj['facebook'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(8) > div:nth-child(1) > a:nth-child(1)', (elm) => elm.href);
+					}).catch(() => '');
+					dataObj['webSite'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1) > a:nth-child(3)', text => text.textContent).catch(() => '');
+					dataObj['email'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > p:nth-child(1) > span:nth-child(3)', text => text.textContent).catch(() => '');
+					dataObj['phone'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > p:nth-child(1) > span:nth-child(3)', text => text.textContent).catch(() => '');
+					dataObj['address1'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > p:nth-child(1) > span:nth-child(3)', text => text.textContent).catch(() => '');
+					dataObj['address2'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(5) > div:nth-child(1) > p:nth-child(1) > span:nth-child(4)', text => text.textContent).catch(() => '');
+					dataObj['ecommerce'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(6) > div:nth-child(1) > p:nth-child(1) > a:nth-child(3)', text => text.textContent).catch(() => '');
+					dataObj['socialNetwork1'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(8) > div:nth-child(1) > a:nth-child(1)', (elm) => elm.href).catch(() => '');
+					dataObj['socialNetwork2'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(8) > div:nth-child(2) > a:nth-child(1)', (elm) => elm.href).catch(() => '');
+					dataObj['socialNetwork3'] = await newPage.$eval('.first-column > div:nth-child(5) > div:nth-child(1) > div:nth-child(8) > div:nth-child(3) > a:nth-child(1)', (elm) => elm.href).catch(() => '');
 					dataObj['people'] = await newPage.$eval('div.extra-info-block:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1)', text => {
 						// Strip new line and tab spaces
 						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
 						return text;
-					});
+					}).catch(() => '');
 					dataObj['industry'] = await newPage.$eval('p.ng-binding:nth-child(3)', text => {
 						// Strip new line and tab spaces
 						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
 						return text;
-					});
+					}).catch(() => '');
 					dataObj['isVerifiedCompany'] = await newPage.$eval('.company-verifications > div:nth-child(1) > i:nth-child(1)', () => 'true').catch(() => 'false');
 					dataObj['isWomenLedCompany'] = await newPage.$eval('div.woman > i:nth-child(1)', () => 'true').catch(() => 'false');
 					dataObj['isOrangeCompany'] = await newPage.$eval('div.orange > i:nth-child(1)', () => 'true').catch(() => 'false');
 					dataObj['isBIC'] = await newPage.$eval('div.bic > i:nth-child(1)', () => 'true').catch(() => 'false');
+					dataObj['logoURL'] = await newPage.$eval('div.title-company:nth-child(1) > img:nth-child(1)', (img) => img.getAttribute('src')).catch(() => '');
+					dataObj['productsAndServices_0'] = await newPage.$eval('.products-services-card > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_0_1'] = await newPage.$eval('#moreProducts > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_0_2'] = await newPage.$eval('#moreProducts > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_0_3'] = await newPage.$eval('#moreProducts > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_0_4'] = await newPage.$eval('#moreProducts > div:nth-child(2) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_1'] = await newPage.$eval('div.products-services-card:nth-child(1) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_1_1'] = await newPage.$eval('div.products-services-card:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_1_2'] = await newPage.$eval('div.products-services-card:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_1_3'] = await newPage.$eval('div.products-services-card:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_1_4'] = await newPage.$eval('div.products-services-card:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_2'] = await newPage.$eval('div.products-services-card:nth-child(2) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_2_1'] = await newPage.$eval('div.products-services-card:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_2_2'] = await newPage.$eval('div.products-services-card:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_2_3'] = await newPage.$eval('div.products-services-card:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_2_4'] = await newPage.$eval('div.products-services-card:nth-child(2) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_3'] = await newPage.$eval('div.products-services-card:nth-child(3) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_3_1'] = await newPage.$eval('div.products-services-card:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_3_2'] = await newPage.$eval('div.products-services-card:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_3_3'] = await newPage.$eval('div.products-services-card:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
+					dataObj['productsAndServices_3_4'] = await newPage.$eval('div.products-services-card:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(4) > div:nth-child(1) > p:nth-child(1)', text => {
+						// Strip new line and tab spaces
+						text = text.textContent.replace(/(\r\n\t|\n|\r|\t|^\s+)/gm, "");
+						return text;
+					}).catch(() => '');
 				} catch(err) {
 					console.log("Could not resolve the selector => ", err);
 				}
+
+				await page.waitForTimeout(2000);
 
 				resolve(dataObj);
 				await newPage.close();
